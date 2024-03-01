@@ -152,7 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade3ca6057dd36047bcb6690c8a5d238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inspector_player: {fileID: 1828962139}
+  iPlayer: {fileID: 1828962139}
+  iRedMat: {fileID: 2100000, guid: 45f6671a114873e4a8de9c4293735c6b, type: 2}
+  iGreenMat: {fileID: 2100000, guid: c04ed1a058424f949a1c33e50f51a8ca, type: 2}
+  iBlueMat: {fileID: 2100000, guid: 798843237260153469341df5a854bee5, type: 2}
 --- !u!4 &53308401
 Transform:
   m_ObjectHideFlags: 0

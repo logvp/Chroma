@@ -5,27 +5,35 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
     // inspector
-    public GameObject inspector_player;
+    public GameObject iPlayer;
+    public Material iRedMat, iGreenMat, iBlueMat;
 
     private class GameStateImpl
     {
-        public GameObject player;
+        internal GameObject player;
+        internal Material redMat, greenMat, blueMat;
 
-        internal GameStateImpl(GameObject player)
+        internal GameStateImpl(GameObject player, Material redMat, Material greenMat, Material blueMat)
         {
             this.player = player;
+            this.redMat = redMat;
+            this.greenMat = greenMat;
+            this.blueMat = blueMat;
         }
     }
 
     private static GameStateImpl instance;
 
     public static GameObject Player => instance.player;
+    public static Material RedMat => instance.redMat;
+    public static Material GreenMat => instance.greenMat;
+    public static Material BlueMat => instance.blueMat;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Assert(inspector_player != null);
-        instance = new GameStateImpl(inspector_player);
+        Debug.Assert(iPlayer != null);
+        instance = new GameStateImpl(iPlayer, iRedMat, iGreenMat, iBlueMat);
     }
 
     // Update is called once per frame

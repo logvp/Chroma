@@ -11,7 +11,7 @@ public class ChromaSplit : MonoBehaviour
     private bool isSplitting;
     private float splitStart;
 
-    // public Material rMat, gMat, bMat;
+    private Material prevMaterial;
 
     private GameObject leftClone, rightClone;
 
@@ -44,18 +44,27 @@ public class ChromaSplit : MonoBehaviour
 
         isSplitting = true;
         splitStart = Time.time;
+        Renderer myRenderer = GetComponent<Renderer>();
+        prevMaterial = myRenderer.material;
         if (leftClone == null)
         {
             leftClone = Instantiate(gameObject, transform.position, transform.rotation);
+            leftClone.GetComponent<Renderer>().material = GameState.RedMat;
+            leftClone.GetComponent<ChromaSplit>().splitable = false;
         }
         if (rightClone == null)
         {
             rightClone = Instantiate(gameObject, transform.position, transform.rotation);
+            rightClone.GetComponent<Renderer>().material = GameState.BlueMat;
+            rightClone.GetComponent<ChromaSplit>().splitable = false;
         }
+        myRenderer.material = GameState.GreenMat;
     }
 
     private void AbortSplitting()
     {
+        if (!isSplitting) return;
+
         isSplitting = false;
         if (leftClone != null)
         {
@@ -67,11 +76,13 @@ public class ChromaSplit : MonoBehaviour
             Destroy(rightClone);
             rightClone = null;
         }
+        GetComponent<Renderer>().material = prevMaterial;
     }
 
     private void FinishSplitting()
     {
         isSplitting = false;
+        splitable = false;
         leftClone = null;
         rightClone = null;
     }
