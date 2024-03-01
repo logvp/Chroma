@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Linecast(transform.position, new Vector3(transform.position.x, transform.position.y - jumpRaycastDistance, transform.position.z)))
             {
-                Debug.Log("Jump!");
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
             }
         }
