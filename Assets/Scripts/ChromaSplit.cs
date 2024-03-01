@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class ChromaSplit : MonoBehaviour
 {
+    public enum ChromaColor
+    {
+        Red,
+        Green,
+        Blue,
+        White,
+    }
+
     public bool splitable = true;
 
     public float timeToSplit = 2;
@@ -11,15 +19,20 @@ public class ChromaSplit : MonoBehaviour
     private bool isSplitting;
     private float splitStart;
 
-    private Material prevMaterial;
+    private Renderer myRenderer;
+    private Material baseMaterial;
+    public ChromaColor color = ChromaColor.White;
 
     private GameObject leftClone, rightClone;
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
+        myRenderer = GetComponent<Renderer>();
+        baseMaterial = myRenderer.material;
+        Debug.Assert(myRenderer != null);
         isSplitting = false;
         splitStart = 0;
+        UpdateColor();
     }
 
     // Update is called once per frame
@@ -28,7 +41,6 @@ public class ChromaSplit : MonoBehaviour
         if (!isSplitting) return;
 
         float t = (Time.time - splitStart) / timeToSplit;
-        Debug.Log(t);
         leftClone.transform.position = Vector3.Lerp(transform.position, transform.position - GameState.Player.transform.right, t);
         rightClone.transform.position = Vector3.Lerp(transform.position, transform.position + GameState.Player.transform.right, t);
 
@@ -44,21 +56,22 @@ public class ChromaSplit : MonoBehaviour
 
         isSplitting = true;
         splitStart = Time.time;
-        Renderer myRenderer = GetComponent<Renderer>();
-        prevMaterial = myRenderer.material;
+        
         if (leftClone == null)
         {
             leftClone = Instantiate(gameObject, transform.position, transform.rotation);
-            leftClone.GetComponent<Renderer>().material = GameState.RedMat;
-            leftClone.GetComponent<ChromaSplit>().splitable = false;
+            ChromaSplit script = leftClone.GetComponent<ChromaSplit>();
+            script.splitable = false;
+            script.UpdateColor(ChromaColor.Red);
         }
         if (rightClone == null)
         {
             rightClone = Instantiate(gameObject, transform.position, transform.rotation);
-            rightClone.GetComponent<Renderer>().material = GameState.BlueMat;
-            rightClone.GetComponent<ChromaSplit>().splitable = false;
+            ChromaSplit script = rightClone.GetComponent<ChromaSplit>();
+            script.splitable = false;
+            script.UpdateColor(ChromaColor.Blue);
         }
-        myRenderer.material = GameState.GreenMat;
+        UpdateColor(ChromaColor.Green);
     }
 
     private void AbortSplitting()
@@ -76,7 +89,7 @@ public class ChromaSplit : MonoBehaviour
             Destroy(rightClone);
             rightClone = null;
         }
-        GetComponent<Renderer>().material = prevMaterial;
+        UpdateColor(ChromaColor.White);
     }
 
     private void FinishSplitting()
@@ -85,6 +98,34 @@ public class ChromaSplit : MonoBehaviour
         splitable = false;
         leftClone = null;
         rightClone = null;
+    }
+
+    private void UpdateColor(ChromaColor color)
+    {
+        this.color = color;
+        UpdateColor();
+    }
+
+    private void UpdateColor()
+    {
+        switch (color)
+        {
+            case ChromaColor.Red:
+                myRenderer.material = GameState.RedMat;
+                break;
+            case ChromaColor.Green:
+                myRenderer.material = GameState.GreenMat;
+                break;
+            case ChromaColor.Blue:
+                myRenderer.material = GameState.BlueMat;
+                break;
+            case ChromaColor.White:
+                myRenderer.material = baseMaterial;
+                break;
+            default:
+                Debug.LogAssertion("Unreachable case");
+                break;
+        }
     }
 
     void OnMouseDown()
