@@ -22,6 +22,7 @@ public class ChromaSplitParent : MonoBehaviour
     public bool primary = true;
     public float timeToSplit = 2;
     public float rejoinRate = 1;
+    public float rejoinThreshold = 1;
 
     private bool hasInput = false;
     private SplittingState state;
@@ -124,6 +125,16 @@ public class ChromaSplitParent : MonoBehaviour
             case SplittingState.DoneSplitting:
                 // 0 => DoneSplitting
                 // 1 => DoneSplitting
+                Vector3 a = copies[0].transform.position - copies[1].transform.position;
+                Vector3 b = copies[0].transform.position - copies[2].transform.position;
+                Vector3 c = copies[0].transform.position - copies[2].transform.position;
+                if (a.magnitude < rejoinThreshold && b.magnitude < rejoinThreshold && c.magnitude < rejoinThreshold)
+                {
+                    Collider collider = GetComponent<Collider>();
+                    collider.enabled = true;
+                    transform.position = (copies[0].transform.position + copies[1].transform.position + copies[2].transform.position) / 3.0f;
+                    GoToNotSplitting();
+                }
                 break;
         }
     }
@@ -166,10 +177,13 @@ public class ChromaSplitParent : MonoBehaviour
     private void GoToDoneSplitting()
     {
         state = SplittingState.DoneSplitting;
-        gameObject.SetActive(false);
         foreach (GameObject copy in copies) {
             copy.GetComponent<ChromaSplitChild>().MakeReal();
         }
+        //gameObject.SetActive(false);
+        myRenderer.enabled = false;
+        Collider collider = GetComponent<Collider>();
+        collider.enabled = false;
     }
 
     private void GoToRejoining()
