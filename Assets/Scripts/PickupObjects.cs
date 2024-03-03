@@ -33,7 +33,6 @@ public class PickupObjects : MonoBehaviour
                 if (Physics.Raycast(head.position, head.forward, out hit, interactDistance, ~((1<<2)|(1<<8))))
                 {
                     GameObject obj = hit.transform.gameObject;
-                    Debug.Log("Clicked on " + obj.name);
                     Pickupable item = obj.GetComponent<Pickupable>();
                     if (item != null)
                     {

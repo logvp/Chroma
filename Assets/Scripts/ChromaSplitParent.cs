@@ -27,6 +27,9 @@ public class ChromaSplitParent : MonoBehaviour
     public float beginRecombineThreshold = 1;
     public float finishRecombineThreshold = 0.1f;
 
+    public float inputDistanceCutoff = 6;
+    public float inputAngleCutoff = 0.95f;
+
     private bool hasInput = false;
     public SplittingState state;
     private float timeSplitting;
@@ -70,6 +73,7 @@ public class ChromaSplitParent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GetInput();
         StateTransition();
         switch (state)
         {
@@ -100,6 +104,23 @@ public class ChromaSplitParent : MonoBehaviour
                 Vector3 dir = (transform.position - copies[i].transform.position).normalized;
                 copies[i].transform.position += dir * recombineSpeed * Time.fixedDeltaTime;
                 copies[i].transform.rotation = transform.rotation;
+            }
+        }
+    }
+
+    private void GetInput()
+    {
+        hasInput = false;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Vector3 dir = transform.position - GameState.Player.transform.position;
+            if (dir.magnitude < inputDistanceCutoff)
+            {
+                if (Vector3.Dot(GameState.PlayerHead.transform.forward, dir.normalized) > inputAngleCutoff)
+                {
+                    Debug.Log("angle check passes");
+                    hasInput = true;
+                }
             }
         }
     }
@@ -259,17 +280,5 @@ public class ChromaSplitParent : MonoBehaviour
     private void Show()
     {
         myRenderer.enabled = true;
-    }
-
-    void OnMouseDown()
-    {
-        // StartSplitting();
-        hasInput = true;
-    }
-
-    void OnMouseUp()
-    {
-        // AbortSplitting();
-        hasInput = false;
     }
 }

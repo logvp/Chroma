@@ -6,16 +6,18 @@ public class GameState : MonoBehaviour
 {
     // inspector
     public GameObject iPlayer;
+    public GameObject iPlayerHead;
     public Material iRedMat, iGreenMat, iBlueMat;
 
     private class GameStateImpl
     {
-        internal GameObject player;
+        internal GameObject player, playerHead;
         internal Material redMat, greenMat, blueMat;
 
-        internal GameStateImpl(GameObject player, Material redMat, Material greenMat, Material blueMat)
+        internal GameStateImpl(GameObject player, GameObject playerHead, Material redMat, Material greenMat, Material blueMat)
         {
             this.player = player;
+            this.playerHead = playerHead;
             this.redMat = redMat;
             this.greenMat = greenMat;
             this.blueMat = blueMat;
@@ -25,6 +27,7 @@ public class GameState : MonoBehaviour
     private static GameStateImpl instance;
 
     public static GameObject Player => instance.player;
+    public static GameObject PlayerHead => instance.playerHead;
     public static Material RedMat => instance.redMat;
     public static Material GreenMat => instance.greenMat;
     public static Material BlueMat => instance.blueMat;
@@ -32,7 +35,7 @@ public class GameState : MonoBehaviour
     void Awake()
     {
         Debug.Assert(iPlayer != null);
-        instance = new GameStateImpl(iPlayer, iRedMat, iGreenMat, iBlueMat);
+        instance = new GameStateImpl(iPlayer, iPlayerHead, iRedMat, iGreenMat, iBlueMat);
     }
 
     // Update is called once per frame

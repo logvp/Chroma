@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iPlayer: {fileID: 1828962139}
+  iPlayerHead: {fileID: 741491293}
   iRedMat: {fileID: 2100000, guid: 45f6671a114873e4a8de9c4293735c6b, type: 2}
   iGreenMat: {fileID: 2100000, guid: c04ed1a058424f949a1c33e50f51a8ca, type: 2}
   iBlueMat: {fileID: 2100000, guid: 798843237260153469341df5a854bee5, type: 2}
@@ -296,6 +297,8 @@ MonoBehaviour:
   recombineSpeed: 2
   beginRecombineThreshold: 1
   finishRecombineThreshold: 0.1
+  inputDistanceCutoff: 6
+  inputAngleCutoff: 0.95
   state: 0
 --- !u!114 &340736648
 MonoBehaviour:
@@ -1463,6 +1466,8 @@ MonoBehaviour:
   recombineSpeed: 2
   beginRecombineThreshold: 1
   finishRecombineThreshold: 0.1
+  inputDistanceCutoff: 6
+  inputAngleCutoff: 0.95
   state: 0
 --- !u!65 &2072994514
 BoxCollider:
