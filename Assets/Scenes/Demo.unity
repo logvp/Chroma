@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 340736644}
   - component: {fileID: 340736643}
   - component: {fileID: 340736647}
+  - component: {fileID: 340736648}
   m_Layer: 0
   m_Name: ChromaCube
   m_TagString: Untagged
@@ -289,9 +290,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af38e800ece37b3458069eeed5995ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splitable: 1
+  primary: 1
   timeToSplit: 2
-  color: 3
+  rejoinRate: 1
+  state: 0
+--- !u!114 &340736648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340736642}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e06a18ebdfb06944face7b0a1cbc99ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &481355117
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,7 +868,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

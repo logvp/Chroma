@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChromaSplit : MonoBehaviour
+public class ChromaSplitParent : MonoBehaviour
 {
     public enum ChromaColor
     {
@@ -56,6 +56,8 @@ public class ChromaSplit : MonoBehaviour
                 2 => GameState.BlueMat,
                 _ => throw new System.ArgumentException(),
             };
+            ChromaSplitChild script = copies[i].GetComponent<ChromaSplitChild>();
+            script.enabled = true;
             copies[i].SetActive(false);
         }
         enabled = true;
