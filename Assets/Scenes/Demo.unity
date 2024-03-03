@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 340736643}
   - component: {fileID: 340736647}
   - component: {fileID: 340736648}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ChromaCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,7 +293,6 @@ MonoBehaviour:
   primary: 1
   timeToSplit: 2
   rejoinRate: 1
-  state: 0
 --- !u!114 &340736648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06a18ebdfb06944face7b0a1cbc99ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
 --- !u!1 &481355117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,7 +1198,7 @@ GameObject:
   - component: {fileID: 2072994513}
   - component: {fileID: 2072994512}
   - component: {fileID: 2072994511}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RbChromaCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1244,6 +1244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06a18ebdfb06944face7b0a1cbc99ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
 --- !u!114 &2072994513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1259,7 +1260,6 @@ MonoBehaviour:
   primary: 1
   timeToSplit: 2
   rejoinRate: 1
-  state: 0
 --- !u!65 &2072994514
 BoxCollider:
   m_ObjectHideFlags: 0

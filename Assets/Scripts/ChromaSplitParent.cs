@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum ChromaColor
+{
+    Red,
+    Green,
+    Blue,
+    White,
+}
 
 public class ChromaSplitParent : MonoBehaviour
 {
-    public enum ChromaColor
-    {
-        Red,
-        Green,
-        Blue,
-        White,
-    }
-
-    public enum SplittingState
+    private enum SplittingState
     {
         NotSplitting,
         Separating,
@@ -25,7 +24,7 @@ public class ChromaSplitParent : MonoBehaviour
     public float rejoinRate = 1;
 
     private bool hasInput = false;
-    public SplittingState state;
+    private SplittingState state;
     private float timeSplitting;
     private Renderer myRenderer;
     private Material baseMaterial;
@@ -42,24 +41,22 @@ public class ChromaSplitParent : MonoBehaviour
 
     void Start()
     {
+        gameObject.layer = 9;
         GameObject[] copies = new GameObject[3];
         enabled = false;
         for (int i = 0; i < 3; i++)
         {
             copies[i] = Instantiate(gameObject, transform.position, transform.rotation);
-            Debug.Assert(copies[i] != null);
-            Renderer renderer = copies[i].GetComponent<Renderer>();
-            Debug.Assert(renderer != null);
-            renderer.material = i switch
-            {
-                0 => GameState.RedMat,
-                1 => GameState.GreenMat,
-                2 => GameState.BlueMat,
-                _ => throw new System.ArgumentException(),
-            };
             ChromaSplitChild script = copies[i].GetComponent<ChromaSplitChild>();
-            Debug.Assert(script != null);
             script.enabled = true;
+            script.parent = this;
+            script.UpdateColor(i switch
+            {
+                0 => ChromaColor.Red,
+                1 => ChromaColor.Green,
+                2 => ChromaColor.Blue,
+                _ => throw new System.ArgumentException(),
+            });
             copies[i].SetActive(false);
         }
         enabled = true;
@@ -179,28 +176,6 @@ public class ChromaSplitParent : MonoBehaviour
     {
         state = SplittingState.Rejoining;
     }
-
-    // private void UpdateColor()
-    // {
-    //     switch (color)
-    //     {
-    //         case ChromaColor.Red:
-    //             myRenderer.material = GameState.RedMat;
-    //             break;
-    //         case ChromaColor.Green:
-    //             myRenderer.material = GameState.GreenMat;
-    //             break;
-    //         case ChromaColor.Blue:
-    //             myRenderer.material = GameState.BlueMat;
-    //             break;
-    //         case ChromaColor.White:
-    //             myRenderer.material = baseMaterial;
-    //             break;
-    //         default:
-    //             Debug.LogAssertion("Unreachable case");
-    //             break;
-    //     }
-    // }
 
     void OnMouseDown()
     {
