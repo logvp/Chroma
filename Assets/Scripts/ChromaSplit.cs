@@ -12,129 +12,197 @@ public class ChromaSplit : MonoBehaviour
         White,
     }
 
-    public bool splitable = true;
+    public enum SplittingState
+    {
+        NotSplitting,
+        Separating,
+        Rejoining,
+        DoneSplitting,
+    }
 
+    public bool primary = true;
     public float timeToSplit = 2;
+    public float rejoinRate = 1;
 
-    private bool isSplitting;
-    private float splitStart;
-
+    private bool hasInput = false;
+    public SplittingState state;
+    private float timeSplitting;
     private Renderer myRenderer;
     private Material baseMaterial;
-    public ChromaColor color = ChromaColor.White;
 
-    private GameObject leftClone, rightClone;
+    private GameObject[] copies;
 
     void OnEnable()
     {
         myRenderer = GetComponent<Renderer>();
         baseMaterial = myRenderer.material;
-        Debug.Assert(myRenderer != null);
-        isSplitting = false;
-        splitStart = 0;
-        UpdateColor();
+        timeSplitting = 0;
+        state = SplittingState.NotSplitting;
+        copies = null;
+    }
+
+    void Start()
+    {
+        GameObject[] copies = new GameObject[3];
+        enabled = false;
+        for (int i = 0; i < 3; i++)
+        {
+            copies[i] = Instantiate(gameObject, transform.position, transform.rotation);
+            Renderer renderer = copies[i].GetComponent<Renderer>();
+            renderer.material = i switch
+            {
+                0 => GameState.RedMat,
+                1 => GameState.GreenMat,
+                2 => GameState.BlueMat,
+                _ => throw new System.ArgumentException(),
+            };
+            copies[i].SetActive(false);
+        }
+        enabled = true;
+        this.copies = copies;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isSplitting) return;
-
-        float t = (Time.time - splitStart) / timeToSplit;
-        leftClone.transform.position = Vector3.Lerp(transform.position, transform.position - GameState.Player.transform.right, t);
-        rightClone.transform.position = Vector3.Lerp(transform.position, transform.position + GameState.Player.transform.right, t);
-
-        if (t > 1)
+        StateTransition();
+        switch (state)
         {
-            FinishSplitting();
-        }
-    }
-
-    private void StartSplitting()
-    {
-        if (!splitable) return;
-
-        isSplitting = true;
-        splitStart = Time.time;
-        
-        if (leftClone == null)
-        {
-            leftClone = Instantiate(gameObject, transform.position, transform.rotation);
-            ChromaSplit script = leftClone.GetComponent<ChromaSplit>();
-            script.splitable = false;
-            script.UpdateColor(ChromaColor.Red);
-        }
-        if (rightClone == null)
-        {
-            rightClone = Instantiate(gameObject, transform.position, transform.rotation);
-            ChromaSplit script = rightClone.GetComponent<ChromaSplit>();
-            script.splitable = false;
-            script.UpdateColor(ChromaColor.Blue);
-        }
-        UpdateColor(ChromaColor.Green);
-    }
-
-    private void AbortSplitting()
-    {
-        if (!isSplitting) return;
-
-        isSplitting = false;
-        if (leftClone != null)
-        {
-            Destroy(leftClone);
-            leftClone = null;
-        }
-        if (rightClone != null)
-        {
-            Destroy(rightClone);
-            rightClone = null;
-        }
-        UpdateColor(ChromaColor.White);
-    }
-
-    private void FinishSplitting()
-    {
-        isSplitting = false;
-        splitable = false;
-        leftClone = null;
-        rightClone = null;
-    }
-
-    private void UpdateColor(ChromaColor color)
-    {
-        this.color = color;
-        UpdateColor();
-    }
-
-    private void UpdateColor()
-    {
-        switch (color)
-        {
-            case ChromaColor.Red:
-                myRenderer.material = GameState.RedMat;
+            case SplittingState.NotSplitting:
                 break;
-            case ChromaColor.Green:
-                myRenderer.material = GameState.GreenMat;
+            case SplittingState.Separating:
+                timeSplitting += Time.deltaTime;
+                UpdateCopyPositions();
                 break;
-            case ChromaColor.Blue:
-                myRenderer.material = GameState.BlueMat;
+            case SplittingState.Rejoining:
+                timeSplitting -= Time.deltaTime * rejoinRate;
+                UpdateCopyPositions();
                 break;
-            case ChromaColor.White:
-                myRenderer.material = baseMaterial;
-                break;
-            default:
-                Debug.LogAssertion("Unreachable case");
+            case SplittingState.DoneSplitting:
                 break;
         }
     }
+
+    private void StateTransition()
+    {
+        // Update State
+        switch (state)
+        {
+            case SplittingState.NotSplitting:
+                // 0 => NotSplitting
+                // 1 => Separating
+                if (hasInput)
+                {
+                    GoToSeparating();
+                }
+                break;
+            case SplittingState.Separating:
+                // 0 => Rejoining
+                // 1 => DoneSplitting
+                if (!hasInput)
+                {
+                    GoToRejoining();
+                }
+                else if (hasInput && timeSplitting >= timeToSplit)
+                {
+                    GoToDoneSplitting();
+                }
+                break;
+            case SplittingState.Rejoining:
+                // 0 => NotSplitting
+                // 1 => Separating
+                if (hasInput)
+                {
+                    GoToSeparating();
+                }
+                else if (!hasInput && timeSplitting <= 0)
+                {
+                    GoToNotSplitting();
+                }
+                break;
+            case SplittingState.DoneSplitting:
+                // 0 => DoneSplitting
+                // 1 => DoneSplitting
+                break;
+        }
+    }
+
+    private void UpdateCopyPositions()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            copies[i].transform.position = i switch
+            {
+                0 => -GameState.Player.transform.right,
+                2 => GameState.Player.transform.right,
+                _ => Vector3.zero,
+            } * (timeSplitting / timeToSplit) + transform.position;
+        }
+    }
+
+    private void GoToSeparating()
+    {
+        state = SplittingState.Separating;
+        foreach (GameObject copy in copies)
+        {
+            copy.SetActive(true);
+        }
+        myRenderer.enabled = false;
+    }
+
+    private void GoToNotSplitting()
+    {
+        timeSplitting = 0;
+        state = SplittingState.NotSplitting;
+        foreach (GameObject copy in copies)
+        {
+            copy.SetActive(false);
+        }
+        myRenderer.enabled = true;
+    }
+
+    private void GoToDoneSplitting()
+    {
+        state = SplittingState.DoneSplitting;
+        gameObject.SetActive(false);
+    }
+
+    private void GoToRejoining()
+    {
+        state = SplittingState.Rejoining;
+    }
+
+    // private void UpdateColor()
+    // {
+    //     switch (color)
+    //     {
+    //         case ChromaColor.Red:
+    //             myRenderer.material = GameState.RedMat;
+    //             break;
+    //         case ChromaColor.Green:
+    //             myRenderer.material = GameState.GreenMat;
+    //             break;
+    //         case ChromaColor.Blue:
+    //             myRenderer.material = GameState.BlueMat;
+    //             break;
+    //         case ChromaColor.White:
+    //             myRenderer.material = baseMaterial;
+    //             break;
+    //         default:
+    //             Debug.LogAssertion("Unreachable case");
+    //             break;
+    //     }
+    // }
 
     void OnMouseDown()
     {
-        StartSplitting();
+        // StartSplitting();
+        hasInput = true;
     }
 
     void OnMouseUp()
     {
-        AbortSplitting();
+        // AbortSplitting();
+        hasInput = false;
     }
 }
