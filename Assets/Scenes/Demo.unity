@@ -292,7 +292,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primary: 1
   timeToSplit: 2
-  rejoinRate: 1
+  rejoinRate: 2
+  recombineSpeed: 2
+  beginRecombineThreshold: 1
+  finishRecombineThreshold: 0.1
+  state: 0
 --- !u!114 &340736648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1259,7 +1263,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primary: 1
   timeToSplit: 2
-  rejoinRate: 1
+  rejoinRate: 2
+  recombineSpeed: 2
+  beginRecombineThreshold: 1
+  finishRecombineThreshold: 0.1
+  state: 0
 --- !u!65 &2072994514
 BoxCollider:
   m_ObjectHideFlags: 0

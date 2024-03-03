@@ -11,21 +11,24 @@ public enum ChromaColor
 
 public class ChromaSplitParent : MonoBehaviour
 {
-    private enum SplittingState
+    public enum SplittingState
     {
         NotSplitting,
         Separating,
         Rejoining,
         DoneSplitting,
+        Recombining,
     }
 
     public bool primary = true;
     public float timeToSplit = 2;
-    public float rejoinRate = 1;
-    public float rejoinThreshold = 1;
+    public float rejoinRate = 2;
+    public float recombineSpeed = 2;
+    public float beginRecombineThreshold = 1;
+    public float finishRecombineThreshold = 0.1f;
 
     private bool hasInput = false;
-    private SplittingState state;
+    public SplittingState state;
     private float timeSplitting;
     private Renderer myRenderer;
     private Material baseMaterial;
@@ -82,6 +85,22 @@ public class ChromaSplitParent : MonoBehaviour
                 break;
             case SplittingState.DoneSplitting:
                 break;
+            case SplittingState.Recombining:
+                // Handled in FixedUpdate
+                break;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (state == SplittingState.Recombining)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Vector3 dir = (transform.position - copies[i].transform.position).normalized;
+                copies[i].transform.position += dir * recombineSpeed * Time.fixedDeltaTime;
+                copies[i].transform.rotation = transform.rotation;
+            }
         }
     }
 
@@ -123,19 +142,25 @@ public class ChromaSplitParent : MonoBehaviour
                 }
                 break;
             case SplittingState.DoneSplitting:
-                // 0 => DoneSplitting
-                // 1 => DoneSplitting
-                Vector3 a = copies[0].transform.position - copies[1].transform.position;
-                Vector3 b = copies[0].transform.position - copies[2].transform.position;
-                Vector3 c = copies[0].transform.position - copies[2].transform.position;
-                if (a.magnitude < rejoinThreshold && b.magnitude < rejoinThreshold && c.magnitude < rejoinThreshold)
                 {
-                    Collider collider = GetComponent<Collider>();
-                    collider.enabled = true;
-                    transform.position = (copies[0].transform.position + copies[1].transform.position + copies[2].transform.position) / 3.0f;
-                    GoToNotSplitting();
-                }
-                break;
+                    Vector3 a = copies[0].transform.position - copies[1].transform.position;
+                    Vector3 b = copies[0].transform.position - copies[2].transform.position;
+                    Vector3 c = copies[1].transform.position - copies[2].transform.position;
+                    if (a.magnitude < beginRecombineThreshold && b.magnitude < beginRecombineThreshold && c.magnitude < beginRecombineThreshold)
+                    {
+                        GoToRecombining();
+                    }
+                } break;
+            case SplittingState.Recombining:
+                {
+                    Vector3 a = copies[0].transform.position - copies[1].transform.position;
+                    Vector3 b = copies[0].transform.position - copies[2].transform.position;
+                    Vector3 c = copies[1].transform.position - copies[2].transform.position;
+                    if (a.magnitude < finishRecombineThreshold && b.magnitude < finishRecombineThreshold && c.magnitude < finishRecombineThreshold)
+                    {
+                        GoToNotSplitting();
+                    }
+                } break;
         }
     }
 
@@ -160,18 +185,18 @@ public class ChromaSplitParent : MonoBehaviour
         {
             copy.SetActive(true);
         }
-        myRenderer.enabled = false;
+        Hide();
     }
 
     private void GoToNotSplitting()
     {
-        timeSplitting = 0;
         state = SplittingState.NotSplitting;
+        timeSplitting = 0;
         foreach (GameObject copy in copies)
         {
             copy.SetActive(false);
         }
-        myRenderer.enabled = true;
+        Enable();
     }
 
     private void GoToDoneSplitting()
@@ -180,15 +205,60 @@ public class ChromaSplitParent : MonoBehaviour
         foreach (GameObject copy in copies) {
             copy.GetComponent<ChromaSplitChild>().MakeReal();
         }
-        //gameObject.SetActive(false);
-        myRenderer.enabled = false;
-        Collider collider = GetComponent<Collider>();
-        collider.enabled = false;
+        Disable();
     }
 
     private void GoToRejoining()
     {
         state = SplittingState.Rejoining;
+        foreach (GameObject copy in copies)
+        {
+            copy.GetComponent<ChromaSplitChild>().MakeNotReal();
+        }
+    }
+
+    private void GoToRecombining()
+    {
+        state = SplittingState.Recombining;
+        transform.position = (copies[0].transform.position + copies[1].transform.position + copies[2].transform.position) / 3.0f;
+        Disable();
+    }
+
+    private void Disable()
+    {
+        Collider collider = GetComponent<Collider>();
+        collider.enabled = false;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            // TODO remember if it was kinematic
+            rb.isKinematic = true;
+            rb.detectCollisions = false;
+        }
+        Hide();
+    }
+
+    private void Enable()
+    {
+        Collider collider = GetComponent<Collider>();
+        collider.enabled = true;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.detectCollisions = true;
+        }
+        Show();
+    }
+
+    private void Hide()
+    {
+        myRenderer.enabled = false;
+    }
+
+    private void Show()
+    {
+        myRenderer.enabled = true;
     }
 
     void OnMouseDown()

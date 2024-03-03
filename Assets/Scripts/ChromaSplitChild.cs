@@ -6,16 +6,23 @@ public class ChromaSplitChild : MonoBehaviour
 {
     public ChromaSplitParent parent;
 
-    private bool wasKinematic;
+    // private bool wasKinematic;
 
     void OnEnable()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        MakeNotReal();
+    }
+
+    public void MakeNotReal()
     {
         Collider collider = GetComponent<Collider>();
         collider.enabled = false;
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            wasKinematic = rb.isKinematic;
+            // TODO remember if it was kinematic
+            rb.isKinematic = true;
             rb.detectCollisions = false;
         }
     }
@@ -27,7 +34,7 @@ public class ChromaSplitChild : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.isKinematic = wasKinematic;
+            rb.isKinematic = false;
             rb.detectCollisions = true;
         }
     }
