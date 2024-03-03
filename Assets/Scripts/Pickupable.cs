@@ -1,0 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Pickupable : MonoBehaviour
+{
+    public Rigidbody rb;
+    private bool useGravity;
+    private float angularDrag;
+
+    void OnEnable()
+    {
+        rb = GetComponent<Rigidbody>();
+        useGravity = rb.useGravity;
+        angularDrag = rb.angularDrag;
+    }
+
+    public void OnPickUp()
+    {
+        rb.velocity = Vector3.zero;
+        rb.useGravity = false;
+        rb.angularDrag = angularDrag * 2 + 1;
+    }
+
+    public void OnPutDown()
+    {
+        rb.useGravity = useGravity;
+        rb.angularDrag = angularDrag;
+    }
+}
