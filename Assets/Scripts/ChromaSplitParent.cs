@@ -38,7 +38,6 @@ public class ChromaSplitParent : MonoBehaviour
         baseMaterial = myRenderer.material;
         timeSplitting = 0;
         state = SplittingState.NotSplitting;
-        copies = null;
     }
 
     void Start()
@@ -48,7 +47,9 @@ public class ChromaSplitParent : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             copies[i] = Instantiate(gameObject, transform.position, transform.rotation);
+            Debug.Assert(copies[i] != null);
             Renderer renderer = copies[i].GetComponent<Renderer>();
+            Debug.Assert(renderer != null);
             renderer.material = i switch
             {
                 0 => GameState.RedMat,
@@ -57,6 +58,7 @@ public class ChromaSplitParent : MonoBehaviour
                 _ => throw new System.ArgumentException(),
             };
             ChromaSplitChild script = copies[i].GetComponent<ChromaSplitChild>();
+            Debug.Assert(script != null);
             script.enabled = true;
             copies[i].SetActive(false);
         }
@@ -139,6 +141,7 @@ public class ChromaSplitParent : MonoBehaviour
                 2 => GameState.Player.transform.right,
                 _ => Vector3.zero,
             } * (timeSplitting / timeToSplit) + transform.position;
+            copies[i].transform.rotation = transform.rotation;
         }
     }
 
@@ -167,6 +170,9 @@ public class ChromaSplitParent : MonoBehaviour
     {
         state = SplittingState.DoneSplitting;
         gameObject.SetActive(false);
+        foreach (GameObject copy in copies) {
+            copy.GetComponent<ChromaSplitChild>().MakeReal();
+        }
     }
 
     private void GoToRejoining()

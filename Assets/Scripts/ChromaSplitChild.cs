@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class ChromaSplitChild : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool wasKinematic;
+
+    void OnEnable()
     {
-        
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            wasKinematic = rb.isKinematic;
+            rb.detectCollisions = false;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void MakeReal()
     {
-        
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = wasKinematic;
+            rb.detectCollisions = true;
+        }
     }
 }

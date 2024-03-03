@@ -29,8 +29,7 @@ public class GameState : MonoBehaviour
     public static Material GreenMat => instance.greenMat;
     public static Material BlueMat => instance.blueMat;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Debug.Assert(iPlayer != null);
         instance = new GameStateImpl(iPlayer, iRedMat, iGreenMat, iBlueMat);
