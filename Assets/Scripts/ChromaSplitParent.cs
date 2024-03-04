@@ -118,7 +118,6 @@ public class ChromaSplitParent : MonoBehaviour
             {
                 if (Vector3.Dot(GameState.PlayerHead.transform.forward, dir.normalized) > inputAngleCutoff)
                 {
-                    Debug.Log("angle check passes");
                     hasInput = true;
                 }
             }
