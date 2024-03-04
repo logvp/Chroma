@@ -7,7 +7,10 @@ public class PickupObjects : MonoBehaviour
     public Transform head;
     public Transform target;
     public float interactDistance;
+    public float dropDistance;
     public float forceMultiplier;
+    public float rightingStrength;
+    public float maxSpeed;
 
     public Pickupable thingWePickUp = null;
 
@@ -24,8 +27,7 @@ public class PickupObjects : MonoBehaviour
         {
             if (thingWePickUp != null)
             {
-                thingWePickUp.OnPutDown();
-                thingWePickUp = null;
+                DropItem();
             }
             else
             {
@@ -38,7 +40,6 @@ public class PickupObjects : MonoBehaviour
                     {
                         item.OnPickUp();
                         thingWePickUp = item;
-                        thingWePickUp.transform.position = target.position;
                     }
                 }
             }
@@ -50,11 +51,30 @@ public class PickupObjects : MonoBehaviour
         if (thingWePickUp != null)
         {
             Vector3 dir = target.position - thingWePickUp.transform.position;
-            if (dir.magnitude > 2)
+            float distance = dir.magnitude;
+            if (distance > dropDistance)
             {
-                dir = dir.normalized * 2;
+                DropItem();
+                return;
+            }
+            if (distance > maxSpeed)
+            {
+                dir = dir.normalized * maxSpeed;
             }
             thingWePickUp.rb.velocity = dir * forceMultiplier + rb.velocity * 0.5f;
+            // https://forum.unity.com/threads/how-to-make-a-rigidbody-turn-upright.44841/
+            Vector3 tug = Vector3.up * rightingStrength;
+            thingWePickUp.rb.AddForceAtPosition(thingWePickUp.transform.TransformPoint(Vector3.up), tug);
+            thingWePickUp.rb.AddForceAtPosition(thingWePickUp.transform.TransformPoint(-Vector3.up), -tug);
+        }
+    }
+
+    private void DropItem()
+    {
+        if (thingWePickUp != null)
+        {
+            thingWePickUp.OnPutDown();
+            thingWePickUp = null;
         }
     }
 }
