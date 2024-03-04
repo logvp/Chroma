@@ -8,6 +8,7 @@ public class ButtonScript : MonoBehaviour
     public GameObject[] events;
 
     private ButtonEvent[] buttonEvents;
+    private int numInteractions;
 
     void OnEnable()
     {
@@ -23,10 +24,14 @@ public class ButtonScript : MonoBehaviour
         GameObject obj = collision.gameObject;
         if ((layerMask.value & (1 << obj.layer)) != 0)
         {
-            foreach (ButtonEvent e in buttonEvents)
+            if (numInteractions == 0)
             {
-                e.StartButtonEvent();
+                foreach (ButtonEvent e in buttonEvents)
+                {
+                    e.StartButtonEvent();
+                }
             }
+            numInteractions++;
         }
     }
 
@@ -35,9 +40,14 @@ public class ButtonScript : MonoBehaviour
         GameObject obj = collision.gameObject;
         if ((layerMask.value & (1 << obj.layer)) != 0)
         {
-            foreach (ButtonEvent e in buttonEvents)
+            // TODO this is not consistent
+            numInteractions--;
+            if (numInteractions == 0)
             {
-                e.EndButtonEvent();
+                foreach (ButtonEvent e in buttonEvents)
+                {
+                    e.EndButtonEvent();
+                }
             }
         }
     }
