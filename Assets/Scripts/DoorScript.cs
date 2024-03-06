@@ -18,14 +18,14 @@ public class DoorScript : MonoBehaviour, ButtonEvent
 
     // [0, 1]
     private float stateTime;
-    private bool shouldBeOpen;
+    private bool isPowered;
     private State state;
 
     // Start is called before the first frame update
     void Start()
     {
         stateTime = 0;
-        shouldBeOpen = false;
+        isPowered = false;
         state = State.Closed;
     }
 
@@ -36,13 +36,13 @@ public class DoorScript : MonoBehaviour, ButtonEvent
         switch (state)
         {
             case State.Closed:
-                if (shouldBeOpen)
+                if (isPowered)
                 {
                     state = State.Opening;
                 }
                 break;
             case State.Closing:
-                if (shouldBeOpen)
+                if (isPowered)
                 {
                     state = State.Opening;
                 }
@@ -53,13 +53,13 @@ public class DoorScript : MonoBehaviour, ButtonEvent
                 }
                 break;
             case State.Open:
-                if (!shouldBeOpen)
+                if (!isPowered)
                 {
                     state = State.Closing;
                 }
                 break;
             case State.Opening:
-                if (!shouldBeOpen)
+                if (!isPowered)
                 {
                     state = State.Closing;
                 }
@@ -92,11 +92,11 @@ public class DoorScript : MonoBehaviour, ButtonEvent
 
     public void EndButtonEvent()
     {
-        shouldBeOpen = false;
+        isPowered = false;
     }
 
     public void StartButtonEvent()
     {
-        shouldBeOpen = true;
+        isPowered = true;
     }
 }
