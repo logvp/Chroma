@@ -13,19 +13,20 @@ public class DoorScript : MonoBehaviour, ButtonEvent
     }
 
     public Transform close, open;
+    public int powerRequired = 1;
     public float timeToOpen = 1;
     public float timeToClose = 0.5f;
 
     // [0, 1]
     private float stateTime;
-    private bool isPowered;
+    private int powerSources;
     private State state;
 
     // Start is called before the first frame update
     void Start()
     {
         stateTime = 0;
-        isPowered = false;
+        powerSources = 0;
         state = State.Closed;
     }
 
@@ -36,13 +37,13 @@ public class DoorScript : MonoBehaviour, ButtonEvent
         switch (state)
         {
             case State.Closed:
-                if (isPowered)
+                if (powerSources >= powerRequired)
                 {
                     state = State.Opening;
                 }
                 break;
             case State.Closing:
-                if (isPowered)
+                if (powerSources >= powerRequired)
                 {
                     state = State.Opening;
                 }
@@ -53,13 +54,13 @@ public class DoorScript : MonoBehaviour, ButtonEvent
                 }
                 break;
             case State.Open:
-                if (!isPowered)
+                if (powerSources < powerRequired)
                 {
                     state = State.Closing;
                 }
                 break;
             case State.Opening:
-                if (!isPowered)
+                if (powerSources < powerRequired)
                 {
                     state = State.Closing;
                 }
@@ -92,11 +93,11 @@ public class DoorScript : MonoBehaviour, ButtonEvent
 
     public void EndButtonEvent()
     {
-        isPowered = false;
+        powerSources -= 1;
     }
 
     public void StartButtonEvent()
     {
-        isPowered = true;
+        powerSources += 1;
     }
 }
