@@ -1,0 +1,3 @@
+Player can climb walls
+Player can clip and keep walking while in the floor
+Splitting cube while on a button locks it on
