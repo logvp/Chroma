@@ -108,10 +108,15 @@ public class ChromaSplitParent : MonoBehaviour
         }
     }
 
+    public static bool GetChromaKeyInput()
+    {
+        return Input.GetKey(KeyCode.LeftShift);
+    }
+
     private void GetInput()
     {
         hasInput = false;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (GetChromaKeyInput())
         {
             Vector3 dir = transform.position - GameState.Player.transform.position;
             if (dir.magnitude < inputDistanceCutoff)
