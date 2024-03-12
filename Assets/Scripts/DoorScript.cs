@@ -21,6 +21,7 @@ public class DoorScript : MonoBehaviour, ButtonEvent
     private float stateTime;
     private int powerSources;
     private State state;
+    private AudioSource source;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class DoorScript : MonoBehaviour, ButtonEvent
         stateTime = 0;
         powerSources = 0;
         state = State.Closed;
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -39,36 +41,36 @@ public class DoorScript : MonoBehaviour, ButtonEvent
             case State.Closed:
                 if (powerSources >= powerRequired)
                 {
-                    state = State.Opening;
+                    Transition(State.Opening);
                 }
                 break;
             case State.Closing:
                 if (powerSources >= powerRequired)
                 {
-                    state = State.Opening;
+                    Transition(State.Opening);
                 }
                 else if (stateTime <= 0)
                 {
                     stateTime = 0;
-                    state = State.Closed;
+                    Transition(State.Closed);
                 }
                 break;
             case State.Open:
                 if (powerSources < powerRequired)
                 {
-                    state = State.Closing;
+                    Transition(State.Closing);
                 }
                 break;
             case State.Opening:
                 if (powerSources < powerRequired)
                 {
-                    state = State.Closing;
+                    Transition(State.Closing);
                 }
                 else if (stateTime >= 1)
                 {
                     stateTime = 1;
-                    state = State.Open;
-                } 
+                    Transition(State.Open);
+                }
                 break;
         }
         // Apply state
@@ -89,6 +91,15 @@ public class DoorScript : MonoBehaviour, ButtonEvent
                 transform.position = Vector3.Lerp(close.position, open.position, stateTime);
                 break;
         }
+    }
+
+    private void Transition(State state)
+    {
+        if (state == State.Closing || state == State.Opening)
+        {
+            source.Play();
+        }
+        this.state = state;
     }
 
     public void EndButtonEvent()

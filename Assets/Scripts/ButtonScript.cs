@@ -7,11 +7,13 @@ public class ButtonScript : MonoBehaviour
     public LayerMask layerMask;
     public GameObject[] events;
 
+    private AudioSource source;
     private ButtonEvent[] buttonEvents;
     private int numInteractions;
 
     void OnEnable()
     {
+        source = GetComponent<AudioSource>();
         buttonEvents = new ButtonEvent[events.Length];
         for (int i = 0; i < events.Length; i++)
         {
@@ -26,6 +28,7 @@ public class ButtonScript : MonoBehaviour
         {
             if (numInteractions == 0)
             {
+                source.Play();
                 foreach (ButtonEvent e in buttonEvents)
                 {
                     e.StartButtonEvent();
