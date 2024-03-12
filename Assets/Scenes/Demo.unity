@@ -30929,6 +30929,8 @@ MonoBehaviour:
   outTime: 2
   minSaturation: 5
   maxSaturation: 30
+  minBloom: 0.5
+  maxBloom: 5
 --- !u!1001 &3269943845114130575
 PrefabInstance:
   m_ObjectHideFlags: 0
