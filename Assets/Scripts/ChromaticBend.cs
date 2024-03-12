@@ -8,16 +8,20 @@ public class ChromaticBend : MonoBehaviour
 {
     public Volume volume;
     public float inTime, outTime;
+    public float minSaturation, maxSaturation;
 
-    private ChromaticAberration effect;
+    private ChromaticAberration chromaticAberration;
+    private ColorAdjustments colorAdjustments;
     private float effectStrength;
 
     // Start is called before the first frame update
     void Start()
     {
         effectStrength = 0;
-        volume.profile.TryGet(out effect);
-        Debug.Assert(effect != null);
+        volume.profile.TryGet(out chromaticAberration);
+        volume.profile.TryGet(out colorAdjustments);
+        Debug.Assert(chromaticAberration != null);
+        Debug.Assert(colorAdjustments != null);
     }
 
     // Update is called once per frame
@@ -36,6 +40,7 @@ public class ChromaticBend : MonoBehaviour
 
         float appliedStrength = 1f - (1f / (effectStrength + 1f));
         appliedStrength = Mathf.Clamp01(appliedStrength);
-        effect.intensity.value = appliedStrength;
+        chromaticAberration.intensity.value = appliedStrength;
+        colorAdjustments.saturation.value = Mathf.Lerp(minSaturation, maxSaturation, appliedStrength);
     }
 }

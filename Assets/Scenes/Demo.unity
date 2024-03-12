@@ -15594,7 +15594,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1695155230}
+  m_Mesh: {fileID: 333817575}
 --- !u!33 &1328382298
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -30927,6 +30927,8 @@ MonoBehaviour:
   volume: {fileID: 454696493}
   inTime: 0.8
   outTime: 2
+  minSaturation: 5
+  maxSaturation: 30
 --- !u!1001 &3269943845114130575
 PrefabInstance:
   m_ObjectHideFlags: 0
