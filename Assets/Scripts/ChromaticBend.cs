@@ -8,6 +8,7 @@ public class ChromaticBend : MonoBehaviour
 {
     public Volume volume;
     public float inTime, outTime;
+    public float minAberration, maxAberration;
     public float minSaturation, maxSaturation;
     public float minBloom, maxBloom;
 
@@ -45,7 +46,7 @@ public class ChromaticBend : MonoBehaviour
         float normalizedStrength = 1f - (1f / (effectStrength + 1f));
         normalizedStrength = Mathf.Clamp01(normalizedStrength);
 
-        chromaticAberration.intensity.value = normalizedStrength;
+        chromaticAberration.intensity.value = Mathf.Lerp(minAberration, maxAberration, normalizedStrength);
         colorAdjustments.saturation.value = Mathf.Lerp(minSaturation, maxSaturation, normalizedStrength);
         bloom.intensity.value = Mathf.Lerp(minBloom, maxBloom, normalizedStrength);
     }
