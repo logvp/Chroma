@@ -38468,6 +38468,11 @@ PrefabInstance:
       propertyPath: maxBloom
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4479001247790874812, guid: 49cc05900da08e64ab262eab3846b531,
+        type: 3}
+      propertyPath: maxAberration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5058804569731281829, guid: 49cc05900da08e64ab262eab3846b531,
         type: 3}
       propertyPath: m_LocalPosition.x

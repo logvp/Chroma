@@ -54,7 +54,7 @@ public class PickupObjects : MonoBehaviour
         {
             Vector3 dir = target.position - thingWePickUp.transform.position;
             float distance = dir.magnitude;
-            if (distance > dropDistance)
+            if (distance > dropDistance || thingWePickUp.rb.isKinematic)
             {
                 DropItem();
                 return;

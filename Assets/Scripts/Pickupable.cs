@@ -5,13 +5,11 @@ using UnityEngine;
 public class Pickupable : MonoBehaviour
 {
     public Rigidbody rb;
-    private bool useGravity;
     private float angularDrag;
 
     void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
-        useGravity = rb.useGravity;
         angularDrag = rb.angularDrag;
     }
 
@@ -24,7 +22,7 @@ public class Pickupable : MonoBehaviour
 
     public void OnPutDown()
     {
-        rb.useGravity = useGravity;
+        rb.useGravity = true;
         rb.angularDrag = angularDrag;
     }
 }
