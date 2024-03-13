@@ -23,6 +23,8 @@ public class PickupObjects : MonoBehaviour
 
     void Update()
     {
+        if (GameState.isPaused) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             if (thingWePickUp != null)

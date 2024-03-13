@@ -28059,6 +28059,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1923609855908014279}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1828962140 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8333863748213367904, guid: 49cc05900da08e64ab262eab3846b531,
+    type: 3}
+  m_PrefabInstance: {fileID: 1923609855908014279}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828962139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c279df53ca02d4c9a174c5476680d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1830945834 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7461021174128975756, guid: 5647bdebfddffda458e0353925c765f1,
@@ -38436,11 +38448,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4108093563086708283, guid: 49cc05900da08e64ab262eab3846b531,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1828962140}
+    - target: {fileID: 4108093563086708283, guid: 49cc05900da08e64ab262eab3846b531,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Unpause
+      objectReference: {fileID: 0}
     - target: {fileID: 4479001247790874812, guid: 49cc05900da08e64ab262eab3846b531,
         type: 3}
       propertyPath: volume
       value: 
       objectReference: {fileID: 454696493}
+    - target: {fileID: 4479001247790874812, guid: 49cc05900da08e64ab262eab3846b531,
+        type: 3}
+      propertyPath: maxBloom
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5058804569731281829, guid: 49cc05900da08e64ab262eab3846b531,
         type: 3}
       propertyPath: m_LocalPosition.x
