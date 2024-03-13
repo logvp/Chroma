@@ -56,7 +56,6 @@ public class ChromaSplitParent : MonoBehaviour
             copies[i] = Instantiate(gameObject, transform.position, transform.rotation);
             ChromaSplitChild script = copies[i].GetComponent<ChromaSplitChild>();
             script.enabled = true;
-            script.parent = this;
             script.UpdateColor(i switch
             {
                 0 => ChromaColor.Red,
@@ -253,13 +252,6 @@ public class ChromaSplitParent : MonoBehaviour
     {
         Collider collider = GetComponent<Collider>();
         collider.enabled = false;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            // TODO remember if it was kinematic
-            rb.isKinematic = true;
-            rb.detectCollisions = false;
-        }
         Hide();
     }
 
@@ -267,22 +259,30 @@ public class ChromaSplitParent : MonoBehaviour
     {
         Collider collider = GetComponent<Collider>();
         collider.enabled = true;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-            rb.detectCollisions = true;
-        }
         Show();
     }
 
     private void Hide()
     {
         myRenderer.enabled = false;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            // TODO remember if it was kinematic
+            rb.isKinematic = true;
+            rb.detectCollisions = false;
+        }
     }
 
     private void Show()
     {
         myRenderer.enabled = true;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            // TODO remember if it was kinematic
+            rb.isKinematic = false;
+            rb.detectCollisions = true;
+        }
     }
 }

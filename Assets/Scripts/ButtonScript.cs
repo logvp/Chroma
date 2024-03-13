@@ -45,8 +45,9 @@ public class ButtonScript : MonoBehaviour
         {
             // TODO this is not consistent
             numInteractions--;
-            if (numInteractions == 0)
+            if (numInteractions <= 0)
             {
+                numInteractions = 0;
                 foreach (ButtonEvent e in buttonEvents)
                 {
                     e.EndButtonEvent();
