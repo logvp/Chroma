@@ -26,6 +26,7 @@ public class GameState : MonoBehaviour
 
     private static GameStateImpl instance;
 
+    public static bool isPaused;
     public static GameObject Player => instance.player;
     public static GameObject PlayerHead => instance.playerHead;
     public static Material RedMat => instance.redMat;

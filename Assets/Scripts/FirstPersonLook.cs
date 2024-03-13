@@ -16,7 +16,7 @@ public class FirstPersonLook : MonoBehaviour
 
     void Update()
     {
-        // TODO: check if paused
+        if (GameState.isPaused) return;
 
         x -= Input.GetAxis("Mouse Y") * sensitivity;
         y += Input.GetAxis("Mouse X") * sensitivity;
