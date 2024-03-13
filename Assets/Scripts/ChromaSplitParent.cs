@@ -184,6 +184,10 @@ public class ChromaSplitParent : MonoBehaviour
                     {
                         GoToNotSplitting();
                     }
+                    else if (a.magnitude > 2*beginRecombineThreshold || b.magnitude > 2*beginRecombineThreshold || c.magnitude > 2*beginRecombineThreshold)
+                    {
+                        GoToDoneSplitting();
+                    }
                 } break;
         }
     }
