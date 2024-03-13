@@ -1368,6 +1368,13 @@ MonoBehaviour:
   iRedMat: {fileID: 2100000, guid: 45f6671a114873e4a8de9c4293735c6b, type: 2}
   iGreenMat: {fileID: 2100000, guid: c04ed1a058424f949a1c33e50f51a8ca, type: 2}
   iBlueMat: {fileID: 2100000, guid: 798843237260153469341df5a854bee5, type: 2}
+  iCheckpoints:
+  - {fileID: 547318614}
+  - {fileID: 430911389}
+  - {fileID: 585556871}
+  - {fileID: 643482409}
+  - {fileID: 2071486003}
+  - {fileID: 296049405}
 --- !u!4 &53308401
 Transform:
   m_ObjectHideFlags: 0
@@ -7416,7 +7423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 296049405}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: Spawn6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10233,7 +10240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 430911389}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: Spawn2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11631,7 +11638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 547318614}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: Spawn1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12372,7 +12379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 585556871}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: Spawn3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12878,7 +12885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 643482409}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: Spawn4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45666,7 +45673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071486003}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: Spawn5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
