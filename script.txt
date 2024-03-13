@@ -1,0 +1,10 @@
+Hey there! You must be the new intern.
+Just put those glasses on and we'll get started with the orientation.
+
+[[door open]]
+
+Here at [company name here] we take a hands on learning approach. Just pick up that box and place it on that button over there.
+
+Today you'll be testing our new Chroma device (patent pending). In the sixteen hundreds Isaac Newton discovered how to split light. Our scientists have discovered how to do the same thing with matter. Go on try it out
+
+Oh by the way, I know you were thinking it, I'm not an AI. That would be against the rules!
