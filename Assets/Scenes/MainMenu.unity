@@ -311,9 +311,9 @@ RectTransform:
   - {fileID: 869991017}
   m_Father: {fileID: 1758832770}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -190}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 35}
   m_SizeDelta: {x: -50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &99944389
@@ -2067,20 +2067,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Chroma (Working title that never get changed) by pupiw for Acerola Jam
-    0, Theme: Aberration.
+  m_text: 'Chroma by pupiw for Acerola Jam 0, Theme: Aberration.
 
 
-    All assets made by me (or default Unity assets) with
-    Blender, Photoshop, and Audacity.
+    All assets
+    made by me (or default Unity assets) with Blender, Photoshop, and Audacity during
+    the jam.
 
 
-    Massive thank you to Acerola for putting
-    on this Jam. Hopefully this game is "insanely goated" enough to stand out with
-    the theme.
+    Massive thank you to Acerola for putting on this Jam. Hopefully
+    this game is "insanely goated" enough to stand out with the theme.
 
 
-    Obviously inspired by Portal, also Grey-Box Testing by Sam Hogan.
+    Obviously
+    inspired by Portal, also Grey-Box Testing by Sam Hogan. Huge shoutout to that
+    game+video for getting me interested in game dev in the first place.
 
 
     Discord:
