@@ -12,6 +12,7 @@ public class VoiceLines : MonoBehaviour
         Chamber3,
         Chamber5,
         Cake,
+        Secret,
     }
     private Lines whatComesNext = Lines.NotDoingStory;
 
@@ -21,6 +22,7 @@ public class VoiceLines : MonoBehaviour
     public AudioClip chamber3;
     public AudioClip chamber5;
     public AudioClip cake;
+    public AudioClip secret;
 
     private AudioSource source;
 
@@ -43,6 +45,7 @@ public class VoiceLines : MonoBehaviour
                 Lines.Chamber3 => chamber3,
                 Lines.Chamber5 => chamber5,
                 Lines.Cake => cake,
+                Lines.Secret => secret,
                 _ => throw new System.ArgumentException(),
             }, 1);
             whatComesNext = line switch
@@ -52,7 +55,8 @@ public class VoiceLines : MonoBehaviour
                 Lines.Chamber2 => Lines.Chamber3,
                 Lines.Chamber3 => Lines.Chamber5,
                 Lines.Chamber5 => Lines.Cake,
-                Lines.Cake => Lines.NotDoingStory,
+                Lines.Cake => Lines.Secret,
+                Lines.Secret => Lines.NotDoingStory,
                 _ => throw new System.ArgumentException(),
             };
             return true;
