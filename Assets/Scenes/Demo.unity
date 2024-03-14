@@ -54341,6 +54341,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3016862073991932140, guid: 49cc05900da08e64ab262eab3846b531,
+        type: 3}
+      propertyPath: m_text
+      value: Green Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 3016862073991932140, guid: 49cc05900da08e64ab262eab3846b531,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 41.15
+      objectReference: {fileID: 0}
     - target: {fileID: 4108093563086708283, guid: 49cc05900da08e64ab262eab3846b531,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
