@@ -29,6 +29,10 @@ public class LevelSelect : MonoBehaviour
     void OnLevelWasLoaded(int sceneId)
     {
         if (sceneId == 0) return;
+        if (levelSelected == 0)
+        {
+            GameState.VoiceLines.WereDoingStory();
+        }
         GameState.Player.transform.position = GameState.Checkpoints[levelSelected].position;
     }
 }
